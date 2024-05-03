@@ -1,0 +1,167 @@
+Practical 10 (DATA VISUALIZATION III)
+
+------------------------------------------------------
+
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+
+---------------------------------------------------
+
+df = pd.read_csv("iris.data")
+
+----------------------------------------------------
+
+print("--------------Describe the Dataframe----------------------")
+print(df.describe())
+print("\n")
+
+
+------------------------------------------------------
+
+
+print("--------------Shape of the Dataframe----------------------")
+print(df.shape)
+print("\n")
+
+---------------------------------------------------
+
+
+print("--------------First 5 rows of the Dataframe----------------------")
+print(df.head())
+print("\n")
+
+----------------------------------------------------
+
+
+print("--------------Last 5 rows of the Dataframe----------------------")
+print(df.tail())
+print("\n")
+
+--------------------------------------------------
+
+
+
+print("----Mean of the First Column--------")
+print(df["SepalLengthCm"].mean())
+print("\n")
+
+# If the column name is not known and you want to access the first column using positional indexing
+print("----Mean of the First Column--------")
+print(df.iloc[:, 0].mean())
+print("\n")
+---------------------------------------------------
+
+print("--------------Histogram of the Dataframe (using 5 bins)----------------------")
+df.hist(bins=5)
+plt.show()
+print("\n") 
+
+--------------------------------------------------
+
+print("------Histogram of the Dataframe----")
+df.hist()
+plt.show()
+print("\n")
+
+---------------------------------------------------
+
+print("--------------Columns of the Dataframe----------------------")
+print(df.columns)
+print("\n") 
+
+--------------------------------------------------
+
+
+print("--------------Minimum value from Each Column----------------------")
+print(df.min())
+print("\n")
+
+
+--------------------------------------------------------
+
+
+print("--------------Maximum value from Each Column----------------------")
+print(df.max())
+print("\n")
+
+
+-----------------------------------------------------
+
+print("--------------Quantile of the Dataframe----------------------")
+print(df.quantile([0, 0.25, 0.5, 0.75, 1.0], numeric_only=True))
+print("\n")
+
+-------------------------------------------------------
+
+
+
+print("--------------Correlation of the Dataframe----------------------")
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+------------------------------------------------------------------------
+
+
+# Assuming 'df' is your DataFrame containing the data
+
+numeric_df = df.select_dtypes(include=['float64', 'int64'])
+
+
+--------------------------------------------------------------------------------
+# Calculate the correlation matrix of numeric columns
+
+correlation_matrix = numeric_df.corr()
+
+---------------------------------------------------------------
+# Melt the correlation matrix to visualize it
+
+
+correlation_melted = correlation_matrix.reset_index().melt(id_vars='index')
+
+=------------------------------------------------------
+
+
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+import pandas as pd
+
+
+
+# Load the Iris dataset
+iris = load_iris()
+iris_df = pd.DataFrame(data=iris.data, columns=iris.feature_names)
+
+---------------------------------------------------------------------------------------
+# Create boxplots for each feature
+
+
+plt.figure(figsize=(12, 8))
+sns.boxplot(data=iris_df)
+plt.title("Boxplot for Each Feature in Iris Dataset")
+plt.xlabel("Features")
+plt.ylabel("Values")
+plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
+plt.tight_layout()
+plt.show()
+
+------------------------------------------------------------------------------------------------
+# Identify outliers
+
+
+Q1 = iris_df.quantile(0.25)
+Q3 = iris_df.quantile(0.75)
+IQR = Q3 - Q1
+outliers = ((iris_df < (Q1 - 1.5 * IQR)) | (iris_df > (Q3 + 1.5 * IQR))).any(axis=0)
+outlier_features = iris_df.columns[outliers]
+print("Features with outliers:")
+print(outlier_features)
+
+
+
+
+

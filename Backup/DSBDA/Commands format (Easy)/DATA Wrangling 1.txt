@@ -1,0 +1,105 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np  
+
+
+----------------------------------------------------------------
+
+df = pd.read_csv('autodata.csv') 
+
+-------------------------------------------------------------------
+
+print("---Information--\n")
+print(df.info())
+
+----------------------------------------------------------------------
+
+print("-----Describe the Dataframe-----")
+print(df.describe()) 
+
+-----------------------------------------------------------------------
+
+print("======Data Preprocessing=========\n")
+
+---------------------------------------------------------------------------
+
+print(df.isnull().sum()) 
+
+--------------------------------------------------------------------------------
+
+print("===Data Standardization====\n")
+
+-----------------------------------------------------------------------------------
+
+Converting miles per galon to liters per 100km
+
+print("-----Standardizing 'city-mpg' column to 'city-L/100km'-----")
+df["city-L/100km"] = 235/df["city-mpg"]
+print(df["city-L/100km"].head())
+
+
+----------------------------------------------------------------------------------------
+
+print("======Data Normalization====\n")
+print("-------Normalizing 'length', 'width', 'height' column----")
+df['length']=df['length']/df['length'].max()
+df['width']=df['width']/df['width'].max()
+df['height']=df['height']/df['height'].max()
+print(df[['length','width','height']].head())
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+print("-------turning categorical values into quantitative (numeric) variables---------")
+print(df['aspiration'].value_counts())
+dummy_var_1=pd.get_dummies(df['aspiration'])
+print(dummy_var_1.head())
+df=pd.concat([df,dummy_var_1], axis=1)
+df.drop('aspiration',axis = 1 , inplace = True)
+print(df.head())
+
+-------------------------------KHATAM------------------------------------------------
+
+
+
+
+
+NO NEED JST in case if asked(Data Binning)
+
+----------------------------
+
+
+print("---------------Binning 'horsepower' column into bins--------------------")
+df["horsepower"]=df["horsepower"].astype(float, copy=True)
+plt.hist(df["horsepower"])
+plt.xlabel("horsepower")
+plt.ylabel("count")
+plt.title("horsepower bins")
+plt.show()
+
+-----------------------------------
+
+print("Horsepower binned")
+bins = np.linspace(min(df["horsepower"]), max(df["horsepower"]), 4)
+group_names = ['Low', 'Medium', 'High']
+df['horsepower-binned'] = pd.cut(df['horsepower'], bins, labels=group_names, include_lowest=True )
+print(df[['horsepower','horsepower-binned']].head(20))
+
+--------------------------------------------------------
+
+
+pyplot.bar(group_names, df["horsepower-binned"].value_counts())
+plt.xlabel("horsepower")
+plt.ylabel("count")
+plt.title("horsepower bins")
+plt.show()
+
+
+
+
+
+
+
